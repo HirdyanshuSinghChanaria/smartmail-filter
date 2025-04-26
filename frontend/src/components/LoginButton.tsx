@@ -4,25 +4,27 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useGoogleLogin } from '@react-oauth/google';
+import { useNavigate } from "react-router-dom"; // <-- Add this import
 
 interface LoginButtonProps {
   className?: string;
 }
 
-interface EmailHeader {
-  name: string;
-  value: string;
-}
 interface Email {
   id: string;
-  snippet: string;
-  headers: EmailHeader[];
+  from: string;
+  subject: string;
+  date: string;
+  snippet?: string;
+  bodyText?: string;
+  bodyHtml?: string;
 }
 
 export function LoginButton({ className }: LoginButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [emails, setEmails] = useState<Email[]>([]);
+  const navigate = useNavigate(); // <-- Add this line
 
   const handleGoogleLogin = useGoogleLogin({
     scope: "https://www.googleapis.com/auth/gmail.readonly",
@@ -63,6 +65,12 @@ export function LoginButton({ className }: LoginButtonProps) {
 
         console.log('User data:', backendResponse);
         setEmails(backendResponse.emails || []);
+
+        // Store access token for AllMails page
+        localStorage.setItem("googleAccessToken", tokenResponse.access_token);
+
+        // Redirect to /all-mails after successful login, pass emails as state
+        navigate("/all-mails", { state: { emails: backendResponse.emails || [] } });
 
       } catch (error) {
         console.error('Login error:', error);
@@ -118,6 +126,15 @@ export function LoginButton({ className }: LoginButtonProps) {
                 <div>
                   <strong>Date:</strong> {email.date}
                 </div>
+                {/* Prefer bodyText, fallback to snippet */}
+                {(email.bodyText || email.snippet) && (
+                  <div>
+                    <strong>Message:</strong>{" "}
+                    {email.bodyText
+                      ? <pre style={{whiteSpace: "pre-wrap"}}>{email.bodyText}</pre>
+                      : email.snippet}
+                  </div>
+                )}
               </li>
             ))}
           </ul>
