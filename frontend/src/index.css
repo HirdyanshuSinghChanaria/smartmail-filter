@@ -8,8 +8,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #333; /* Updated text color */
+  background-color: #f9fafb; /* Light gray background */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,10 +28,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Remove place-items: center to avoid grid centering issues */
 }
 
 h1 {
@@ -134,4 +136,44 @@ button:focus-visible {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px);}
+  50% { transform: translateY(-10px);}
+  100% { transform: translateY(0px);}
+}
+
+.img-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  .glass {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .animate-gradient-x {
+    background-size: 200% 200%;
+    animation: gradient-x 6s ease-in-out infinite;
+  }
+}
+
+@keyframes gradient-x {
+  0%, 100% { background-position: left center; }
+  50% { background-position: right center; }
+}
+
+.shadow-animated {
+  transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10);
+}
+.shadow-animated:hover {
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
 }

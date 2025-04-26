@@ -4,15 +4,15 @@ import { MailFilterIcon } from "@/components/icons/MailFilterIcon";
 
 export function Login() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-50 p-4">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-200 via-indigo-100 to-pink-100 animate-gradient-x">
       <div className="w-full max-w-md">
-        <Card className="border-none shadow-lg">
+        <Card className="border-none shadow-2xl bg-white/60 backdrop-blur-lg transition-all duration-300 hover:scale-105 hover:shadow-3xl">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4">
-              <MailFilterIcon className="h-12 w-12 text-blue-500" />
+              <MailFilterIcon className="h-14 w-14 text-blue-500 drop-shadow-lg animate-float" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900">Welcome to SmartMail Filter</h1>
-            <p className="text-sm text-gray-500">
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 drop-shadow-sm">SmartMail Filter</h1>
+            <p className="text-base text-gray-600">
               Sign in with your Google account to continue
             </p>
           </CardHeader>
